@@ -1,0 +1,30 @@
+name: pdal-build
+channels:
+  - conda-forge
+dependencies:
+  - libgdal
+  - libpq
+  - curl
+  - hdf5
+  - tiledb
+  - draco
+  - libxml2
+  - openssl
+  - nitro
+  - ceres-solver
+  - python=3.10
+  - conda
+  - mamba
+  - conda-build
+  - arrow-cpp
+  - mkl  # [win]
+  - blas  # [win]
+  - compilers
+  - ninja
+  - cmake
+  - pkg-config
+  - make  # [not win]
+  - re2  # [linux]
+  - abseil-cpp  # [linux]
+  - ccache
+
