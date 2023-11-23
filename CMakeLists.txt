@@ -247,7 +247,6 @@ target_link_libraries(${PDAL_LIB_NAME}
         ${CMAKE_THREAD_LIBS_INIT}
         ${CMAKE_DL_LIBS}
         ${GDAL_LIBRARY}
-        ${PROJ_LIBRARIES}
         ${GEOTIFF_LIBRARY}
         ${LIBXML2_LIBRARIES}
         ${ZLIB_LIBRARIES}
@@ -260,6 +259,10 @@ target_link_libraries(${PDAL_LIB_NAME}
         ${PDAL_LEPCC_LIB_NAME}
         ${PDAL_LAZPERF_LIB_NAME}
         ${UTFCPP_LIB_NAME}
+        ${PROJ_LIBRARIES}
+        ${TIFF_LIBRARIES}
+        -lstdc++fs
+        -lpsapi
     PUBLIC
         ${WINSOCK_LIBRARY}
     INTERFACE

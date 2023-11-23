@@ -15,3 +15,6 @@ if (GEOTIFF_FOUND)
 else()
     message(FATAL_ERROR "GeoTIFF support is required")
 endif()
+
+find_package(TIFF REQUIRED)
+INCLUDE_DIRECTORIES(${TIFF_INCLUDE_DIR})

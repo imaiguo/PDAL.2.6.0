@@ -46,10 +46,9 @@
 #include <codecvt>
 #endif
 
-#include <filesystem>
-namespace fs = std::filesystem;
+#include <experimental/filesystem>
 
-
+using namespace std::experimental::filesystem;
 
 #include <pdal/util/FileUtils.hpp>
 #include <pdal/util/Utils.hpp>
@@ -202,13 +201,13 @@ std::ostream *openExisting(const std::string& name, bool asBinary)
 bool directoryExists(const std::string& dirname)
 {
     //ABELL - Seems we should be calling is_directory
-    return fs::exists(toNative(dirname));
+    return exists(toNative(dirname));
 }
 
 
 bool createDirectory(const std::string& dirname)
 {
-    return fs::create_directory(toNative(dirname));
+    return create_directory(toNative(dirname));
 }
 
 
@@ -220,13 +219,13 @@ bool createDirectories(const std::string& dirname)
     if('/' == s.back())
         s.pop_back();
 
-    return fs::create_directories(toNative(s));
+    return create_directories(toNative(s));
 }
 
 
 void deleteDirectory(const std::string& dirname)
 {
-    fs::remove_all(toNative(dirname));
+    remove_all(toNative(dirname));
 }
 
 
@@ -236,15 +235,15 @@ std::vector<std::string> directoryList(const std::string& dir)
 
     try
     {
-        fs::directory_iterator it(toNative(dir));
-        fs::directory_iterator end;
+        directory_iterator it(toNative(dir));
+        directory_iterator end;
         while (it != end)
         {
             files.push_back(it->path().u8string());
             it++;
         }
     }
-    catch (fs::filesystem_error& )
+    catch (filesystem_error& )
     {
         files.clear();
     }
@@ -284,13 +283,13 @@ void closeFile(std::istream* in)
 
 bool deleteFile(const std::string& file)
 {
-    return fs::remove(toNative(file));
+    return remove(toNative(file));
 }
 
 
 void renameFile(const std::string& dest, const std::string& src)
 {
-    fs::rename(toNative(src), toNative(dest));
+    rename(toNative(src), toNative(dest));
 }
 
 
@@ -301,9 +300,9 @@ bool fileExists(const std::string& name)
 
     try
     {
-        return fs::exists(toNative(name));
+        return exists(toNative(name));
     }
-    catch (fs::filesystem_error&)
+    catch (filesystem_error&)
     {
     }
     return false;
@@ -314,7 +313,7 @@ bool fileExists(const std::string& name)
 uintmax_t fileSize(const std::string& file)
 {
     std::error_code ec;
-    uintmax_t size = fs::file_size(toNative(file), ec);
+    uintmax_t size = file_size(toNative(file), ec);
     if (ec)
         size = 0;
     return size;
@@ -338,21 +337,21 @@ std::string readFileIntoString(const std::string& filename)
 
 std::string getcwd()
 {
-    const fs::path p = fs::current_path();
+    const path p = current_path();
     return addTrailingSlash(p.u8string());
 }
 
 
-std::string toCanonicalPath(std::string filename)
-{
-    return fs::weakly_canonical(toNative(filename)).u8string();
-}
+// std::string toCanonicalPath(std::string filename)
+// {
+//     return std::experimental::filesystem::weakly_canonical(toNative(filename)).u8string();
+// }
 
 // if the filename is an absolute path, just return it
 // otherwise, make it absolute (relative to current working dir) and return that
 std::string toAbsolutePath(const std::string& filename)
 {
-    return fs::absolute(toNative(filename)).u8string();
+    return absolute(toNative(filename)).u8string();
 }
 
 
@@ -364,10 +363,10 @@ std::string toAbsolutePath(const std::string& filename)
 std::string toAbsolutePath(const std::string& filename, const std::string base)
 {
     const std::string newbase = toAbsolutePath(base);
-    fs::path f (toNative(filename));
-    fs::path b (toNative(newbase));
+    path f (toNative(filename));
+    path b (toNative(newbase));
 
-    fs::path fb = b / f ;
+    path fb = b / f ;
     return fb.string();
 }
 
@@ -390,8 +389,7 @@ std::string getFilename(const std::string& path)
 // Get the directory part of a filename.
 std::string getDirectory(const std::string& path)
 {
-    const fs::path dir =
-         fs::path(toNative(path)).parent_path();
+    const std::experimental::filesystem::path dir = std::experimental::filesystem::path(toNative(path)).parent_path();
     return addTrailingSlash(dir.u8string());
 }
 
@@ -412,7 +410,7 @@ std::string stem(const std::string& path)
 // Determine if the path represents a directory.
 bool isDirectory(const std::string& path)
 {
-    return fs::is_directory(toNative(path));
+    return is_directory(toNative(path));
 }
 
 // Determine if the path is an absolute path
@@ -421,7 +419,7 @@ bool isAbsolutePath(const std::string& path)
     if (path.find("://") != std::string::npos)
         return true;
 
-    return fs::path(toNative(path)).is_absolute();
+    return std::experimental::filesystem::path(toNative(path)).is_absolute();
 }
 
 

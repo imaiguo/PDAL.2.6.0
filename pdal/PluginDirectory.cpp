@@ -59,7 +59,7 @@ StringList pluginSearchPaths()
 
         for (std::string s : possiblePaths)
         {
-            s = FileUtils::toCanonicalPath(s);
+            s = FileUtils::toAbsolutePath(s);
             if (s.size() && !Utils::contains(searchPaths, s))
                 searchPaths.push_back(s);
         }

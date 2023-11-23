@@ -1,17 +1,37 @@
-PDAL
-====
+# PDAL
 
+## 依赖
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2616780.svg)](https://doi.org/10.5281/zenodo.2616780)
+1. GDAL
 
-[![Join the chat at https://gitter.im/PDAL/PDAL](https://badges.gitter.im/PDAL/PDAL.svg)](https://gitter.im/PDAL/PDAL?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+```bash
+> -DGDAL_INCLUDE_DIR=D:\devtools\GDAL.3.7.3\include -DGDAL_LIBRARY=D:\devtools\GDAL.3.7.3\lib\libgdal.dll.a 
+```
 
-## Build Status
+2. GeoTIFF
 
-[![OSX](https://github.com/PDAL/PDAL/workflows/OSX/badge.svg)](https://github.com/PDAL/PDAL/actions?query=workflow%3AOSX)
-[![Linux](https://github.com/PDAL/PDAL/workflows/Linux/badge.svg)](https://github.com/PDAL/PDAL/actions?query=workflow%3ALinux)
-[![Windows](https://github.com/PDAL/PDAL/workflows/Windows/badge.svg)](https://github.com/PDAL/PDAL/actions?query=workflow%3AWindows)
-[![Docs](https://github.com/PDAL/PDAL/workflows/Docs/badge.svg)](https://github.com/PDAL/PDAL/actions?query=workflow%3ADocs)
-[![Conda](https://github.com/PDAL/PDAL/workflows/Conda/badge.svg)](https://github.com/PDAL/PDAL/actions?query=workflow%3AConda)
+```bash
+> -DGEOTIFF_LIBRARY=D:\devtools\LIBGEOTIFF.1.7.1\lib\libgeotiff.a -DGEOTIFF_INCLUDE_DIR=D:\devtools\LIBGEOTIFF.1.7.1\include 
+```
 
-See https://pdal.io/ for more info
+3. zlib
+
+```bash
+> -DZLIB_LIBRARY=D:/devtools/zlib.1.3/lib/libzlib.dll.a -DZLIB_INCLUDE_DIR=D:/devtools/zlib.1.3/include
+```
+
+4. curl
+
+```bash
+> -DCURL_LIBRARY=D:\devtools\crul.mingw.8.2.1\lib\libcurl.dll.a -DCURL_INCLUDE_DIR=D:\devtools\crul.mingw.8.2.1\include
+>
+```
+
+## build on Windows use mingw64
+```bash
+> mkdir build & cd build
+> cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release DNANA_CMAKE_NANA_FILESYSTEM_FORCE=1 -DWITH_TESTS=0 -DCMAKE_INSTALL_PREFIX=D:\devtools\PDAL.2.6.0 -DPROJ_LIBRARY=D:\devtools\proj.9.2.1\lib\libproj.dll.a -DPROJ_INCLUDE_DIR=D:\devtools\proj.9.2.1\include -DGDAL_INCLUDE_DIR=D:\devtools\GDAL.3.7.3\include -DGDAL_LIBRARY=D:\devtools\GDAL.3.7.3\lib\libgdal.dll.a -DGEOTIFF_LIBRARY=D:\devtools\LIBGEOTIFF.1.7.1\lib\libgeotiff.a -DGEOTIFF_INCLUDE_DIR=D:\devtools\LIBGEOTIFF.1.7.1\include -DZLIB_LIBRARY=D:/devtools/zlib.1.3/lib/libzlib.dll.a -DZLIB_INCLUDE_DIR=D:/devtools/zlib.1.3/include -DCURL_LIBRARY=D:\devtools\crul.mingw.8.2.1\lib\libcurl.dll.a -DCURL_INCLUDE_DIR=D:\devtools\crul.mingw.8.2.1\include -DTIFF_INCLUDE_DIR=D:\devtools\TIFF.4.6.0\include -DTIFF_LIBRARY=D:/devtools/TIFF.4.6.0/lib/libtiff.dll.a
+> 
+> ninja
+> ninja install
+```
