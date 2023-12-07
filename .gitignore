@@ -90,6 +90,7 @@ test/data/local
 
 /_build*
 /build*
+build
 /examples/build*
 /*local*.bat
 /*local*.sh

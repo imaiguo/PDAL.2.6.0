@@ -8,17 +8,16 @@
 
 #include <vector>
 
-void fillView(pdal::PointViewPtr view)
-{
-    struct Point
-    {
-        double x;
-        double y;
-        double z;
-    };
+struct Point{
+    double x;
+    double y;
+    double z;
+};
 
-    for (int i = 0; i < 1000; ++i)
-    {
+void fillView(pdal::PointViewPtr view){
+
+    for (int i = 0; i < 1000; ++i){
+
         Point p;
 
         p.x = -93.0 + i*0.001;
@@ -32,32 +31,34 @@ void fillView(pdal::PointViewPtr view)
 }
 
 
-int main(int argc, char* argv[])
-{
-    using namespace pdal;
+// PointTable -> PointViewPtr -> BufferReader ->  writers.las [StageFactory -> Stage] -> execute
 
-    Options options;
+int main(int argc, char* argv[]){
+
+    pdal::Options options;
     options.add("filename", "myfile.las");
 
-    PointTable table;
-    table.layout()->registerDim(Dimension::Id::X);
-    table.layout()->registerDim(Dimension::Id::Y);
-    table.layout()->registerDim(Dimension::Id::Z);
+    pdal::PointTable table;
+    table.layout()->registerDim(pdal::Dimension::Id::X);
+    table.layout()->registerDim(pdal::Dimension::Id::Y);
+    table.layout()->registerDim(pdal::Dimension::Id::Z);
 
-    PointViewPtr view(new PointView(table));
+    pdal::PointViewPtr view(new pdal::PointView(table));
 
     fillView(view);
 
-    BufferReader reader;
+    pdal::BufferReader reader;
     reader.addView(view);
 
-    StageFactory factory;
+    pdal::StageFactory factory;
 
     // StageFactory always "owns" stages it creates. They'll be destroyed with the factory.
-    Stage *writer = factory.createStage("writers.las");
+    pdal::Stage *writer = factory.createStage("writers.las");
 
     writer->setInput(reader);
     writer->setOptions(options);
     writer->prepare(table);
     writer->execute(table);
+
+    return 0;
 }
